@@ -1,8 +1,5 @@
 let gameGrid = document.getElementById("gameGrid");
 let selected = [];
-let wrongWords = [];
-let recurringWords = [];
-let correctWords = [];
 
 // Select 5 random pairs, ensuring each pair is complete
 let shuffledPairs = pairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5);
@@ -72,7 +69,7 @@ function selectWord(element) {
     }
 }
 
-//Checks if the selected words match.
+// Checks if the selected words match.
 function checkMatch() {
     const first = selected[0];
     const second = selected[1];
@@ -81,12 +78,34 @@ function checkMatch() {
         // If correct, mark as matched
         first.classList.add("matched");
         second.classList.add("matched");
-        correctWords.push({ brainrot: first.textContent, english: second.textContent });
+
+        // Increment the score for the matched pair
+        const matchedPair = pairs.find(pair => pair.brainrot === first.textContent && pair.english === second.textContent);
+        if (matchedPair) {
+            matchedPair.score += 1;
+            console.log(`Score for ${matchedPair.brainrot} - ${matchedPair.english}: ${matchedPair.score}`);
+
+            if (matchedPair.score === 2) {
+                const index = pairs.indexOf(matchedPair);
+                pairs.splice(index, 1);
+                console.log(`Pair ${matchedPair.brainrot} - ${matchedPair.english} removed from game.`);
+            }
+        }
+
+        // Remove "selected" class from matched elements
+        first.classList.remove("selected");
+        second.classList.remove("selected");
     } else {
-        // If incorrect, mark as wrong and track wrong words
+        // If incorrect, mark as wrong
         first.classList.add("wrong");
         second.classList.add("wrong");
-        wrongWords.push({ brainrot: first.textContent, english: second.textContent });
+
+        // Decrement the score for the mismatched pair
+        const mismatchedPair = pairs.find(pair => pair.brainrot === first.textContent || pair.english === second.textContent);
+        if (mismatchedPair) {
+            mismatchedPair.score -= 1;
+            console.log(`Score for ${mismatchedPair.brainrot} - ${mismatchedPair.english}: ${mismatchedPair.score}`);
+        }
 
         // Remove wrong styling after a short delay
         setTimeout(function () {
@@ -97,45 +116,21 @@ function checkMatch() {
         }, 500);
     }
 
-    // Reset selected words
     selected = [];
 
-    // Check if all words are matched to reset the game
+    // Check if all words are matched
     if (document.querySelectorAll(".matched").length === 10) {
-        setTimeout(resetGame, 1000);
+        setTimeout(resetGame, 1000); // Reset the game after a short delay
     }
 }
 
-// Resets the game, preserving incorrect words for additional learning.
+// Resets the game, keeping the game running infinitely.
 function resetGame() {
     // Clear the game grid
     gameGrid.innerHTML = "";
 
-    // Select new words while keeping incorrect ones for another attempt
-    let newPairs = pairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5 - wrongWords.length);
-    
-    wrongWords.forEach(function (word) {
-        const pair = pairs.find(function (pair) {
-            return pair.brainrot === word.brainrot || pair.english === word.english;
-        });
-
-        if (pair && !newPairs.includes(pair)) {
-            newPairs.push(pair);
-            recurringWords.push({ ...pair, roundsLeft: 2 });
-        }
-    });
-
-    // Add recurring words from previous rounds
-    recurringWords = recurringWords.filter(word => word.roundsLeft > 0);
-    recurringWords.forEach(function (word) {
-        if (!newPairs.includes(word)) {
-            newPairs.push(word);
-            word.roundsLeft--;
-        }
-    });
-
-    // Reset incorrect words list
-    wrongWords = [];
+    // Select new words
+    let newPairs = pairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5);
 
     // Rebuild word lists
     brainrotWords = [];
@@ -179,9 +174,7 @@ function resetGame() {
     // Add new columns to the game grid
     gameGrid.appendChild(brainrotColumn);
     gameGrid.appendChild(englishColumn);
-
-    // Check if the user has completed the module
-    if (correctWords.length === pairs.length) {
-        window.location.href = "homepage.html";
-    }
 }
+
+// Initial game setup
+resetGame();
