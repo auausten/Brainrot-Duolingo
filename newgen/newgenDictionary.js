@@ -1,0 +1,22 @@
+const pairs = [
+    { brainrot: "ts", english: "this" },
+    { brainrot: "sigma", english: "dominant" },
+    { brainrot: "fanum tax", english: "taking food" },
+    { brainrot: "pmo", english: "annoying" },
+    { brainrot: "shlawg", english: "malicious person" },
+    { brainrot: "rizz", english: "charisma" },
+    { brainrot: "alpha", english: "leader" },
+    { brainrot: "beta", english: "follower" },
+    { brainrot: "bomboclatt", english: "bloody" },
+    { brainrot: "goofy ahh", english: "silly" },
+    { brainrot: "cap", english: "lie" },
+    { brainrot: "bussin", english: "tasty" },
+    { brainrot: "packet yo", english: "bad teacher"} ,
+    { brainrot: "subaru", english: "patrick" },
+    { brainrot: "pagani", english: "spongebob" },
+    { brainrot: "mr toyota", english: "mr krabs" },
+    { brainrot: "baka", english: "idiot" },
+    { brainrot: "veiny ahh", english: "vascular" },
+    { brainrot: "glaze", english: "praise" },
+    { brainrot: "drip", english: "style" }
+];
