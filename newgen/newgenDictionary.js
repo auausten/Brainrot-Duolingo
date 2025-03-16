@@ -1,4 +1,4 @@
-const pairs = [
+const newgenPairs = [
     { brainrot: "ts", english: "this", score: 0 },
     { brainrot: "sigma", english: "dominant", score: 0 },
     { brainrot: "fanum tax", english: "taking food", score: 0 },

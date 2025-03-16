@@ -2,7 +2,7 @@ let gameGrid = document.getElementById("gameGrid");
 let selected = [];
 
 // Select 5 random pairs, ensuring each pair is complete
-let shuffledPairs = pairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5);
+let shuffledPairs = newgenPairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5);
 
 // Create separate lists for Brainrot and English words
 let brainrotWords = [];
@@ -80,14 +80,14 @@ function checkMatch() {
         second.classList.add("matched");
 
         // Increment the score for the matched pair
-        const matchedPair = pairs.find(pair => pair.brainrot === first.textContent && pair.english === second.textContent);
+        const matchedPair = newgenPairs.find(pair => pair.brainrot === first.textContent && pair.english === second.textContent);
         if (matchedPair) {
             matchedPair.score += 1;
             console.log(`Score for ${matchedPair.brainrot} - ${matchedPair.english}: ${matchedPair.score}`);
 
             if (matchedPair.score === 2) {
-                const index = pairs.indexOf(matchedPair);
-                pairs.splice(index, 1);
+                const index = newgenPairs.indexOf(matchedPair);
+                newgenPairs.splice(index, 1);
                 console.log(`Pair ${matchedPair.brainrot} - ${matchedPair.english} removed from game.`);
             }
         }
@@ -101,7 +101,7 @@ function checkMatch() {
         second.classList.add("wrong");
 
         // Decrement the score for the mismatched pair
-        const mismatchedPair = pairs.find(pair => pair.brainrot === first.textContent || pair.english === second.textContent);
+        const mismatchedPair = newgenPairs.find(pair => pair.brainrot === first.textContent || pair.english === second.textContent);
         if (mismatchedPair) {
             mismatchedPair.score -= 1;
             console.log(`Score for ${mismatchedPair.brainrot} - ${mismatchedPair.english}: ${mismatchedPair.score}`);
@@ -130,7 +130,7 @@ function resetGame() {
     gameGrid.innerHTML = "";
 
     // Select new words
-    let newPairs = pairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5);
+    let newPairs = newgenPairs.sort(function () { return Math.random() - 0.5; }).slice(0, 5);
 
     // Rebuild word lists
     brainrotWords = [];
